@@ -15,6 +15,8 @@
         <link href="{{ asset('plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
         <!-- Responsive datatable examples -->
         <link href="{{ asset('plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Sweet Alert -->
+        <link href="../plugins/sweet-alert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
 
         <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css">
@@ -34,101 +36,24 @@
                     <!-- Logo container-->
                     <div class="logo">
                         
-                        <a href="{{ url('/home') }}" class="logo">
+                        <!-- <a href="{{ url('/home') }}" class="logo">
                             <img src="assets/images/logo-sm-light.png" alt="" class="logo-small">
                             <img src="assets/images/logo-light.png" alt="" class="logo-large">
+                        </a> -->
+                        <a href="{{ url('/home') }}">
+                            <h3 class="text-white">Hippam Kaligondo</h3>
                         </a>
 
                     </div>
 
-                    <!-- End Logo container-->
-
-
-                    <div class="menu-extras topbar-custom">
-
-                        <ul class="navbar-right d-flex list-inline float-right mb-0">
-                            <!-- <li class="dropdown notification-list d-none d-sm-block">
-                                <form role="search" class="app-search">
-                                    <div class="form-group mb-0"> 
-                                        <input type="text" class="form-control" placeholder="Search..">
-                                        <button type="submit"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </form> 
-                            </li> -->
-    
-                            <li class="dropdown notification-list">
-                                <a class="nav-link dropdown-toggle arrow-none waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                    <i class="mdi mdi-bell noti-icon"></i>
-                                    <span class="badge badge-pill badge-info noti-icon-badge">3</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
-                                    <!-- item-->
-                                    <h6 class="dropdown-item-text">
-                                        Notifikasi (3)
-                                    </h6>
-                                    <div class="slimscroll notification-item-list">
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                            <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                            <p class="notify-details">Your order is placed<span class="text-muted">Dummy text of the printing and typesetting industry.</span></p>
-                                        </a>
-                                        <!-- item-->
-                                        <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                            <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>
-                                            <p class="notify-details">New Message received<span class="text-muted">You have 87 unread messages</span></p>
-                                        </a>
-                                        
-                                    </div>
-                                    <!-- All-->
-                                    <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                                        Lihat Semua <i class="fi-arrow-right"></i>
-                                    </a>
-                                </div>        
-                            </li>
-                            <li class="dropdown notification-list">
-                                <div class="dropdown notification-list">
-                                    <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                        <img src="assets/images/users/user-4.jpg" alt="user" class="rounded-circle">
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                                        <!-- item-->
-                                        <a class="dropdown-item" href="{{ url('/profile') }}"><i class="mdi mdi-account-circle m-r-5"></i> Profile</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-danger" href="#"><i class="mdi mdi-power text-danger"></i> Logout</a>
-                                    </div>                                                                    
-                                </div>
-                            </li>
-                            
-                            <li class="menu-item list-inline-item">
-                                <!-- Mobile menu toggle-->
-                                <a class="navbar-toggle nav-link">
-                                    <div class="lines">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </a>
-                                <!-- End mobile menu toggle-->
-                            </li>
-
-                        </ul>
-    
-    
-    
-                    </div>
-                    <!-- end menu-extras -->
-
                     <div class="clearfix"></div>
 
-                </div> <!-- end container -->
+                </div> 
             </div>
-            <!-- end topbar-main -->
 
-            <!-- MENU Start -->
             <div class="navbar-custom">
                 <div class="container-fluid">
                     <div id="navigation">
-                        <!-- Navigation Menu-->
                         <ul class="navigation-menu">
 
                             <li class="has-submenu">
@@ -136,32 +61,40 @@
                             </li>
 
                             <li class="has-submenu">
-                                <a href="#"><i class="mdi mdi-buffer"></i>UI Elements</a>
+                                <a href="{{ url('/keluhan') }}"><i class="mdi mdi-book-open-page-variant"></i>Keluhan</a>
+                            </li>
+
+                            <li class="has-submenu">
+                                <a href="{{ url('/pembayaran') }}"><i class="mdi mdi-clipboard-text-clock-outline"></i>Pembayaran</a>
+                            </li>
+
+                            <li class="has-submenu">
+                                <a href="#"><i class="mdi mdi-account"></i>Profile</a>
                                 <ul class="submenu megamenu">
                                     <li>
                                         <ul>
-                                            <li><a href="ui-alerts.html">Alerts</a></li>
-                                            <li><a href="ui-buttons.html">Buttons</a></li>
-                                            <li><a href="ui-badge.html">Badge</a></li>
-                                            <li><a href="ui-cards.html">Cards</a></li>
-                                            <li><a href="ui-carousel.html">Carousel</a></li>
-                                            <li><a href="ui-dropdowns.html">Dropdowns</a></li>
+                                            <li><a href="{{ url('/profile/edit-profile') }}">Edit profile</a></li>
+                                            <li><a href="{{ url('/profile/ganti-password') }}">Ganti Password</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
 
-                        </ul>
-                        <!-- End navigation menu -->
-                    </div> <!-- end #navigation -->
-                </div> <!-- end container -->
-            </div> <!-- end navbar-custom -->
-        </header>
-        <!-- End Navigation Bar-->
+                            <li class="has-submenu">
+                                <a href="#" onclick="event.preventDefault();this.closest('form').submit();"><i class="mdi mdi-logout"></i>Keluar</a>
+                                <form method="POST" action="{{ route('logout') }}" id="logout">
+                                    @csrf
+                                </form>
+                            </li>
 
-        <!-- page wrapper start -->
+                        </ul>
+
+                    </div> 
+                </div> 
+            </div> 
+        </header>
+
         @yield('content')
-        <!-- page wrapper end -->
 
         <!-- Footer -->
         <footer class="footer">
@@ -204,8 +137,34 @@
         <!-- Datatable init js -->
         <script src="{{ asset('assets/pages/datatables.init.js') }}"></script>
 
+        <!-- Sweet-Alert  -->
+        <script src="../plugins/sweet-alert2/sweetalert2.min.js"></script>
+
         <!-- App js -->
         <script src="{{ asset('assets/js/app.js') }}"></script>
+
+        @if($message = Session::get('success'))
+        <script>
+            swal({
+                title: 'Berhasil',
+                text: '{{ $message }}',
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+            })
+        </script>
+        @endif
+
+        @if($message = Session::get('error'))
+        <script>
+            swal({
+                title: 'Error',
+                type: 'error',
+                html: '{{ $message }}',
+                showCloseButton: true,
+            })
+        </script>
+        @endif
 
         @yield('js')
 

@@ -10,6 +10,9 @@
         <meta content="Themesbrand" name="author" />
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
+        <!-- Sweet Alert -->
+        <link href="../plugins/sweet-alert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
+
         <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
         <link href="assets/css/style.css" rel="stylesheet" type="text/css">
@@ -33,16 +36,16 @@
                         <h4 class="text-muted font-18 m-b-5 text-center">Selamat Datang</h4>
                         <p class="text-muted text-center">Masuk ke aplikasi Hippam Kaligondo.</p>
 
-                        <form class="form-horizontal m-t-30" action="">
+                        <form class="form-horizontal m-t-30" action="{{ url('/login') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="username">Username</label>
-                                <input type="text" class="form-control" id="username" placeholder="Masukkan username">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username atau no. hp" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="userpassword">Password</label>
-                                <input type="password" class="form-control" id="userpassword" placeholder="Masukkan password atau no. hp">
+                                <input type="password" class="form-control" id="userpassword" name="password" placeholder="Masukkan password" required>
                             </div>
 
                             <div class="form-group row m-t-20">
@@ -82,10 +85,24 @@
         <script src="{{ asset('assets/js/jquery.slimscroll.js') }}"></script>
         <script src="{{ asset('assets/js/waves.min.js') }}"></script>
 
+        <!-- Sweet-Alert  -->
+        <script src="../plugins/sweet-alert2/sweetalert2.min.js"></script>
+
         <script src="{{ asset('plugins/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
 
         <!-- App js -->
         <script src="{{ asset('assets/js/app.js') }}"></script>
+
+        @if($message = Session::get('error'))
+        <script>
+            swal({
+                title: 'Error',
+                type: 'error',
+                html: '{{ $message }}',
+                showCloseButton: true,
+            })
+        </script>
+        @endif
 
     </body>
 
