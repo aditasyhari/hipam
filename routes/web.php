@@ -32,7 +32,13 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/profile/ganti-password', [UserController::class, 'gantiPassword']);
     Route::put('/profile/ganti-password', [UserController::class, 'updatePassword']);
     
+    // keluhan
     Route::get('/keluhan', [KeluhanController::class, 'index']);
+    Route::post('/keluhan/list', [KeluhanController::class, 'keluhanList']);
+    Route::post('/keluhan/tambah', [KeluhanController::class, 'tambah']);
+    Route::put('/keluhan/update/{id}', [KeluhanController::class, 'update']);
+    Route::delete('/keluhan/delete/{id}', [KeluhanController::class, 'delete']);
+
     Route::get('/pembayaran', [PembayaranController::class, 'index']);
     Route::get('/notifikasi', [NotifikasiController::class, 'index']);
 

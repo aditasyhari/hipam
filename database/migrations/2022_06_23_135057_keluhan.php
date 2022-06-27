@@ -17,6 +17,7 @@ class Keluhan extends Migration
             $table->id();
             $table->foreignId('id_pelanggan')->references('id')->on('user');
             $table->string('nama');
+            $table->string('tlp');
             $table->string('alamat');
             $table->text('keluhan');
             $table->boolean('read')->default(false);
