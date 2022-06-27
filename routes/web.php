@@ -25,13 +25,26 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware(['auth'])->group(function() {
     Route::get('/home', [HomeController::class, 'home']);
-    Route::get('/profile/edit-profile', [UserController::class. 'editProfile']);
-    Route::get('/profile/ganti-password', [UserController::class. 'gantiPassword']);
-    
-    Route::get('/keluhan', [KeluhanController::class. 'index']);
-    Route::get('/pembayaran', [PembayaranController::class. 'index']);
-    Route::get('/notifikasi', [NotifikasiController::class. 'index']);
 
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    // profile
+    Route::get('/profile/edit-profile', [UserController::class, 'editProfile']);
+    Route::put('/profile/edit-profile', [UserController::class, 'updateProfile']);
+    Route::get('/profile/ganti-password', [UserController::class, 'gantiPassword']);
+    Route::put('/profile/ganti-password', [UserController::class, 'updatePassword']);
+    
+    Route::get('/keluhan', [KeluhanController::class, 'index']);
+    Route::get('/pembayaran', [PembayaranController::class, 'index']);
+    Route::get('/notifikasi', [NotifikasiController::class, 'index']);
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::middleware(['petugas'])->group(function() {
+        // user
+        Route::get('/user', [UserController::class, 'user']);
+        Route::post('/user/list', [UserController::class, 'userList']);
+        Route::post('/user/tambah', [UserController::class, 'tambahUser']);
+        Route::put('/user/update/{id}', [UserController::class, 'updateUser']);
+        Route::delete('/user/delete/{id}', [UserController::class, 'deleteUser']);
+    });
 
 });

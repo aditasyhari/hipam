@@ -5,9 +5,10 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@yield('title')</title>
-        <meta content="Admin Dashboard" name="description" />
-        <meta content="Themesbrand" name="author" />
+        <meta content="Hippam Dashboard" name="description" />
+        <meta content="Hippam Kaligondo" name="author" />
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
         <!-- DataTables -->
@@ -56,19 +57,23 @@
                     <div id="navigation">
                         <ul class="navigation-menu">
 
-                            <li class="has-submenu">
+                            <li class="has-submenu {{ (request()->is('home*')) ? 'active' : '' }}">
                                 <a href="{{ url('/home') }}"><i class="mdi mdi-home"></i>Home</a>
                             </li>
 
-                            <li class="has-submenu">
+                            <li class="has-submenu {{ (request()->is('keluhan*')) ? 'active' : '' }}">
                                 <a href="{{ url('/keluhan') }}"><i class="mdi mdi-book-open-page-variant"></i>Keluhan</a>
                             </li>
 
-                            <li class="has-submenu">
-                                <a href="{{ url('/pembayaran') }}"><i class="mdi mdi-clipboard-text-clock-outline"></i>Pembayaran</a>
+                            <li class="has-submenu {{ (request()->is('pembayaran*')) ? 'active' : '' }}">
+                                <a href="{{ url('/pembayaran') }}"><i class="mdi mdi-clipboard"></i>Pembayaran</a>
                             </li>
 
-                            <li class="has-submenu">
+                            <li class="has-submenu {{ (request()->is('notifikasi*')) ? 'active' : '' }}">
+                                <a href="{{ url('/notifikasi') }}"><i class="mdi mdi-bell"></i>Notifikasi</a>
+                            </li>
+
+                            <li class="has-submenu {{ (request()->is('profile*')) ? 'active' : '' }}">
                                 <a href="#"><i class="mdi mdi-account"></i>Profile</a>
                                 <ul class="submenu megamenu">
                                     <li>
@@ -80,8 +85,18 @@
                                 </ul>
                             </li>
 
+                            @if(Auth::user()->role == 'petugas')
+                            <li class="has-submenu {{ (request()->is('user*')) ? 'active' : '' }}">
+                                <a href="{{ url('/user') }}"><i class="mdi mdi-account-plus"></i>User</a>
+                            </li>
+
+                            <li class="has-submenu {{ (request()->is('pengumuman*')) ? 'active' : '' }}">
+                                <a href="{{ url('/pengumuman') }}"><i class="mdi mdi-bullhorn"></i>Pengumuman</a>
+                            </li>
+                            @endif
+
                             <li class="has-submenu">
-                                <a href="#" onclick="event.preventDefault();this.closest('form').submit();"><i class="mdi mdi-logout"></i>Keluar</a>
+                                <a href="#" onclick="$('#logout').submit();"><i class="mdi mdi-logout"></i>Keluar</a>
                                 <form method="POST" action="{{ route('logout') }}" id="logout">
                                     @csrf
                                 </form>
@@ -149,7 +164,6 @@
                 title: 'Berhasil',
                 text: '{{ $message }}',
                 type: 'success',
-                showCancelButton: true,
                 confirmButtonClass: 'btn btn-success',
             })
         </script>
