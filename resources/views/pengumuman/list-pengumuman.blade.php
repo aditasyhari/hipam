@@ -1,15 +1,13 @@
 @extends('layout.main')
 
 @section('title')
-Keluhan | Hippam Kaligondo
+Pengumuman | Hippam Kaligondo
 @endsection
 
 @section('css')
 <style>
-    input[type=checkbox], input[type=radio] {
-        width: 20px;
-        height: 20px;
-        margin-top: 10px;
+    .mw-img-info {
+      max-width: 180px;
     }
 </style>
 @endsection
@@ -21,8 +19,8 @@ Keluhan | Hippam Kaligondo
 
             <div class="row">
                 <div class="col-sm-12">
-                    <h4 class="page-title">Keluhan</h4>
-                    <p>List Keluhan</p>
+                    <h4 class="page-title">Pengumuman</h4>
+                    <p>List Pengumuman</p>
                 </div>
             </div>
         </div>
@@ -33,17 +31,13 @@ Keluhan | Hippam Kaligondo
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
-                    @if(Auth::user()->role == 'pelanggan')
-                    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambah">Tambah Keluhan</button>
-                    @endif
+                    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#tambah">Tambah Pengumuman</button>
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">
                             <thead>
                                 <tr>
-                                    <th>Nama</th>
-                                    <th>No. Telepon</th>
-                                    <th>Alamat</th>
-                                    <th>keluhan</th>
+                                    <th style="width: 15%">Poster</th>
+                                    <th>Deskripsi</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -59,63 +53,76 @@ Keluhan | Hippam Kaligondo
 
 </div>
 
-@if(Auth::user()->role == 'pelanggan')
 <!-- modal tambah -->
 <div class="modal fade" id="tambah" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="tambahLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="tambahLabel">Tambah Keluhan</h5>
+        <h5 class="modal-title" id="tambahLabel">Tambah Pengumuman</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-            <form action="{{ url('/keluhan/tambah') }}" method="post">
+            <form action="{{ url('/pengumuman/tambah') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                    <label for="">Keluhan</label>
-                    <textarea name="keluhan" class="form-control @error('keluhan') is-invalid @enderror" required>{{ old('keluhan') }}</textarea>
-                    @error('keluhan')
+                    <label for="poster">Poster (<small>Maksimal 2 MB</small>)</label>
+                    <input name="poster" type="file" accept="images/*" class="form-control @error('poster') is-invalid @enderror" value="{{ old('poster') }}" required>
+                    @error('poster')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea name="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" required>{{ old('deskripsi') }}</textarea>
+                    @error('deskripsi')
                       <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Tambah Pengumuman</button>
              </form>
       </div>
     </div>
   </div>
 </div>
-@endif
 
 <!-- modal edit -->
 <div class="modal fade" id="edit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editLabel">Edit Keluhan</h5>
+        <h5 class="modal-title" id="editLabel">Edit Pengumuman</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-            <form id="form_edit" action="" method="post">
+            <form id="form_edit" action="" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('put')
+                <div class="form-group" id="img-poster"></div>
                 <div class="form-group">
-                    <label for="">Keluhan</label>
-                    <textarea name="keluhan" class="form-control @error('keluhan') is-invalid @enderror" id="keluhan_edit" required></textarea>
-                    @error('keluhan')
+                    <label for="poster">Poster (<small>Maksimal 2 MB</small>)</label>
+                    <input name="poster" type="file" accept="images/*" class="form-control @error('poster') is-invalid @enderror">
+                    @error('poster')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <label for="">Deskripsi</label>
+                    <textarea name="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi_edit" required></textarea>
+                    @error('deskripsi')
                       <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-            <button type="submit" class="btn btn-primary">Perbarui Keluhan</button>
+            <button type="submit" class="btn btn-primary">Perbarui Pengumuman</button>
              </form>
       </div>
     </div>
@@ -124,15 +131,6 @@ Keluhan | Hippam Kaligondo
 @endsection
 
 @section('js')
-@if(Auth::user()->role == 'petugas')
-    <script>
-      var role = 'petugas';
-    </script>
-@else
-    <script>
-      var role = 'pelanggan';
-    </script>
-@endif
 <script>
     $.ajaxSetup({
         headers: {
@@ -145,54 +143,66 @@ Keluhan | Hippam Kaligondo
         serverSide: true,
         ajax: {
             type: 'POST',
-            url: "keluhan/list",
+            url: "pengumuman/list",
         },
         columns: [
-            { data: 'nama', name: 'nama' },
-            { data: 'tlp', name: 'tlp' },
-            { data: 'alamat', name: 'alamat' },
-            { data: 'keluhan', name: 'keluhan' },
+            { data: 'poster', name: 'poster' },
+            { data: 'deskripsi', name: 'deskripsi' },
             { data: '', orderable: false },
         ],
         order: [[0, 'desc']],
         columnDefs: [
-        {
-          targets: -1,
-          orderable: false,
-          render: function (data, type, full, meta) {
-            var id_keluhan = full['id'];
-            if(role == 'petugas') {
-              var aksi = 'Tidak ada aksi';
-            } else {
+          {
+            targets: 0,
+            render: function (data, type, full, meta) {
+              var pathPoster = "{{ url('/storage/images/info') }}";
+              var poster = pathPoster + '/' + full['poster'];
+
+              var output = '<a href="'+ poster +'" target="_blank"><img src="'+ poster +'" class="img-fluid" /></a>';
+
+              return output;
+            }
+          },
+          {
+            targets: -1,
+            orderable: false,
+            render: function (data, type, full, meta) {
+              var id_pengumuman = full['id'];
+              
               var aksi = (
                 '<div class="btn-group">' +
                   '<a class="btn dropdown-toggle hide-arrow" data-toggle="dropdown">Aksi</a>' +
                   '<div class="dropdown-menu dropdown-menu-right">' +
-                  '<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#edit" onclick="edit(this, '+ id_keluhan +')">Edit</a>' +
-                  '<a href="javascript:;" class="dropdown-item delete-record" onclick="hapus('+ id_keluhan +')">Hapus</a>' +
+                  '<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#edit" onclick="edit(this, '+ id_pengumuman +')">Edit</a>' +
+                  '<a href="javascript:;" class="dropdown-item delete-record" onclick="hapus('+ id_pengumuman +')">Hapus</a>' +
                   '</div>' +
                 '</div>'
               );
-            }
 
-            return aksi;
+              return aksi;
+            }
           }
-        }
-      ],
+        ],
     });
 
-    function edit(this_el, id_user) {
-        var url = '/keluhan/update/'+id_user;
+    function edit(this_el, id_pengumuman) {
+        var url = '/pengumuman/update/'+id_pengumuman;
         var tr_el = this_el.closest('tr');
         var row = $("#table-1").DataTable().row(tr_el);
         var row_data = row.data();
-        console.log(row_data.email);
-        $('#keluhan_edit').val(row_data.keluhan);
+
+        var pathPoster = "{{ url('/storage/images/info') }}";
+        var poster = pathPoster + '/' + row_data.poster;
+
+        var imgPoster = '<a href="'+ poster +'" target="_blank"><img src="'+ poster +'" class="mw-img-info" /></a>';
+
+        $('#img-poster').html(imgPoster);
+        $('#deskripsi_edit').val(row_data.deskripsi);
         $('#form_edit').attr('action', url);
     }
 
     function hapus(e) {
-        var url = 'keluhan/delete/'+e;
+        var url = 'pengumuman/delete/'+e;
 
         swal({
             title             : "Apakah Anda Yakin ?",
@@ -210,7 +220,7 @@ Keluhan | Hippam Kaligondo
                     $('#table-1').DataTable().ajax.reload();
                     swal({
                         type: 'success',
-                        title: 'Data Keluhan berhasil dihapus.',
+                        title: 'Data Pengumuman berhasil dihapus.',
                         showConfirmButton: true,
                         confirmButtonClass: 'btn btn-success',
                     });

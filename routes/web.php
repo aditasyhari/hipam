@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeluhanController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\PengumumanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,14 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/user/tambah', [UserController::class, 'tambahUser']);
         Route::put('/user/update/{id}', [UserController::class, 'updateUser']);
         Route::delete('/user/delete/{id}', [UserController::class, 'deleteUser']);
+
+        // pengumuman
+        Route::get('/pengumuman', [PengumumanController::class, 'index']);
+        Route::post('/pengumuman/list', [PengumumanController::class, 'list']);
+        Route::post('/pengumuman/tambah', [PengumumanController::class, 'tambah']);
+        Route::put('/pengumuman/update/{id}', [PengumumanController::class, 'update']);
+        Route::delete('/pengumuman/delete/{id}', [PengumumanController::class, 'delete']);
+
     });
 
 });
