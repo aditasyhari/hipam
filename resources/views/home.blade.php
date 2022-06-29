@@ -49,6 +49,7 @@ Home | Hippam Kaligondo
                         </div>
                         <div class="col-12 col-md-6 col-lg-6">
                             <h5>Pengumuman</h5>
+                            @if(count($info))
                             <div id="info-poster" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner" role="listbox">
                                     @foreach($info as $i)
@@ -70,6 +71,11 @@ Home | Hippam Kaligondo
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
+                            @else
+                                <div class="mt-5">
+                                    <h3>Tidak ada pengumuman.</h3>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
