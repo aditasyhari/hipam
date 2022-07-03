@@ -40,7 +40,10 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/keluhan/update/{id}', [KeluhanController::class, 'update']);
     Route::delete('/keluhan/delete/{id}', [KeluhanController::class, 'delete']);
 
+    // pembayaran
     Route::get('/pembayaran', [PembayaranController::class, 'index']);
+
+    // notifikasi
     Route::get('/notifikasi', [NotifikasiController::class, 'index']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -59,6 +62,9 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/pengumuman/tambah', [PengumumanController::class, 'tambah']);
         Route::put('/pengumuman/update/{id}', [PengumumanController::class, 'update']);
         Route::delete('/pengumuman/delete/{id}', [PengumumanController::class, 'delete']);
+
+        // pembayaran
+        Route::post('/pembayaran/list', [PembayaranController::class, 'list']);
 
     });
 

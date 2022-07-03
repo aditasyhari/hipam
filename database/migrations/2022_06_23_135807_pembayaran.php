@@ -18,6 +18,7 @@ class Pembayaran extends Migration
             $table->foreignId('id_pelanggan')->references('id')->on('user');
             $table->foreignId('id_petugas')->references('id')->on('user')->nullable();
             $table->string('nama');
+            $table->string('tlp');
             $table->string('alamat');
             $table->string('bukti')->nullable();
             $table->enum('status', ['pending', 'waiting', 'reject', 'success'])->default('pending');
