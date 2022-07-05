@@ -42,6 +42,9 @@ Route::middleware(['auth'])->group(function() {
 
     // pembayaran
     Route::get('/pembayaran', [PembayaranController::class, 'index']);
+    Route::get('/pembayaran/bayar', [PembayaranController::class, 'bayar']);
+    Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayarHippam']);
+    Route::get('/pembayaran/riwayat', [PembayaranController::class, 'riwayat']);
 
     // notifikasi
     Route::get('/notifikasi', [NotifikasiController::class, 'index']);

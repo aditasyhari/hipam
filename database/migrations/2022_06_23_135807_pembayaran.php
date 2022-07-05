@@ -16,7 +16,6 @@ class Pembayaran extends Migration
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_pelanggan')->references('id')->on('user');
-            $table->foreignId('id_petugas')->references('id')->on('user')->nullable();
             $table->string('nama');
             $table->string('tlp');
             $table->string('alamat');
