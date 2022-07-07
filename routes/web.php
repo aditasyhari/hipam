@@ -44,7 +44,10 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/pembayaran', [PembayaranController::class, 'index']);
     Route::get('/pembayaran/bayar', [PembayaranController::class, 'bayar']);
     Route::post('/pembayaran/bayar', [PembayaranController::class, 'bayarHippam']);
+    Route::post('/pembayaran/valid/{id}', [PembayaranController::class, 'valid']);
+    Route::post('/pembayaran/tolak/{id}', [PembayaranController::class, 'tolak']);
     Route::get('/pembayaran/riwayat', [PembayaranController::class, 'riwayat']);
+    Route::post('/pembayaran/riwayat/upload-ulang/{id}', [PembayaranController::class, 'uploadUlang']);
 
     // notifikasi
     Route::get('/notifikasi', [NotifikasiController::class, 'index']);

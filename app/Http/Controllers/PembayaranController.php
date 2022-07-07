@@ -7,6 +7,7 @@ use App\Models\Pembayaran;
 use DataTables;
 use Exception;
 use Validator;
+use Storage;
 use Auth;
 
 class PembayaranController extends Controller
@@ -59,13 +60,14 @@ class PembayaranController extends Controller
             }
 
             $bulan_sekarang = date('m');
+            $tahun_sekarang = date('Y');
             $id_pelanggan = Auth::user()->id;
 
             if($request->bulan > $bulan_sekarang) {
                 return back()->with('error', 'Bulan yang dipilih melebihi bulan sekarang.');
             }
 
-            $check_pembayaran = Pembayaran::where('id_pelanggan', $id_pelanggan)->whereMonth('created_at', $request->bulan)->count();
+            $check_pembayaran = Pembayaran::where('id_pelanggan', $id_pelanggan)->where('tahun', $tahun_sekarang)->where('bulan', $request->bulan)->count();
             if($check_pembayaran) {
                 return back()->with('error', 'Pembayaran sudah dilakukan, lihat di riwayat.');
             }
@@ -78,7 +80,10 @@ class PembayaranController extends Controller
                 'nama' => Auth::user()->nama,
                 'tlp' => Auth::user()->tlp,
                 'alamat' => Auth::user()->alamat,
-                'bukti' => $bukti
+                'bulan' => $request->bulan,
+                'tahun' => $tahun_sekarang,
+                'bukti' => $bukti,
+                'status' => 'waiting'
             ]);
 
             return back()->with('success', 'Pembayaran berhasil, tunggu validasi admin.');
@@ -88,10 +93,78 @@ class PembayaranController extends Controller
         }
     }
 
+    public function valid($id)
+    {
+        try {
+            $pembayaran = Pembayaran::find($id);
+            $pembayaran->update([
+                'status' => 'success',
+                'read' => true
+            ]);
+
+            return response()->json('success', 200);
+        } catch (Exception $e) {
+            return response()->json('error', 500);
+            dd($e->getMessage());
+        }
+    }
+
+    public function tolak($id)
+    {
+        try {
+            $pembayaran = Pembayaran::find($id);
+            $pembayaran->update([
+                'status' => 'reject',
+                'read' => true
+            ]);
+
+            return response()->json('success', 200);
+        } catch (Exception $e) {
+            return response()->json('error', 500);
+            dd($e->getMessage());
+        }
+    }
+
     public function riwayat()
     {
         try {
-            return view('pembayaran.riwayat');
+            $id_pelanggan = Auth::user()->id;
+            $tahun_sekarang = date('Y');
+            $riwayat = Pembayaran::where('id_pelanggan', $id_pelanggan)->where('tahun', $tahun_sekarang)->get();
+
+            return view('pembayaran.riwayat', compact(['riwayat']));
+        } catch (Exception $e) {
+            return view('error');
+            dd($e->getMessage());
+        }
+    }
+
+    public function uploadUlang(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'bukti' => 'required|max:2048',
+            ]);
+                
+            if ($validator->fails()) {
+                return back()->with('error', 'Unggah Bukti dengan benar.');
+            }
+
+            $pembayaran = Pembayaran::find($id);
+
+            $path = "images/bukti/";
+            $bukti = uploads($request->bukti, $path);
+
+            Storage::delete($path.'/'.$pembayaran->bukti);
+
+            $pembayaran->update([
+                'bukti' => $bukti,
+                'status' => 'waiting',
+                'read' => false,
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
+            return back()->with('success', 'Pembayaran berhasil, tunggu validasi admin.');
         } catch (Exception $e) {
             return view('error');
             dd($e->getMessage());

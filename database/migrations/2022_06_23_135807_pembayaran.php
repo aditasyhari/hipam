@@ -19,6 +19,8 @@ class Pembayaran extends Migration
             $table->string('nama');
             $table->string('tlp');
             $table->string('alamat');
+            $table->string('bulan', 2);
+            $table->string('tahun', 4);
             $table->string('bukti')->nullable();
             $table->enum('status', ['pending', 'waiting', 'reject', 'success'])->default('pending');
             $table->boolean('read')->default(false);

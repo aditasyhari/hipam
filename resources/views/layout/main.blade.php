@@ -158,6 +158,17 @@
         <!-- App js -->
         <script src="{{ asset('assets/js/app.js') }}"></script>
 
+        <script>
+            function toMonthName(monthNumber) {
+                const date = new Date();
+                date.setMonth(monthNumber - 1);
+
+                return date.toLocaleString('id-ID', {
+                    month: 'long',
+                });
+            }
+        </script>
+
         @if($message = Session::get('success'))
         <script>
             swal({

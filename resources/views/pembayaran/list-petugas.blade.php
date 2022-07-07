@@ -31,6 +31,7 @@ Pembayaran | Hippam Kaligondo
                                     <th>No. Telepon</th>
                                     <th>Alamat</th>
                                     <th style="width: 10%;">Bukti</th>
+                                    <th style="width: 10%;">Pembayaran</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -68,6 +69,7 @@ Pembayaran | Hippam Kaligondo
             { data: 'tlp', name: 'tlp' },
             { data: 'alamat', name: 'alamat' },
             { data: 'bukti', name: 'bukti' },
+            { data: 'bulan', name: 'bulan' },
             { data: 'status', name: 'status' },
             { data: '', orderable: false },
         ],
@@ -85,6 +87,27 @@ Pembayaran | Hippam Kaligondo
             }
         },
         {
+          targets: 4,
+            render: function (data, type, full, meta) {
+              var bulan = toMonthName(parseInt(full['bulan']));
+              var tahun = parseInt(full['tahun']);
+
+              var output = `<h6 class='w-100 mx-auto font-weight-bold'>${bulan} ${tahun}</h6>`;
+
+              return output;
+            }
+        },
+        {
+          targets: 5,
+            render: function (data, type, full, meta) {
+              var status = full['status'];
+
+              var output = `<h6 class='text-uppercase'>${status}</h6>`;
+
+              return output;
+            }
+        },
+        {
           targets: -1,
           orderable: false,
           render: function (data, type, full, meta) {
@@ -93,11 +116,11 @@ Pembayaran | Hippam Kaligondo
 
             if(status == 'waiting') {
               return (
-                '<div class="btn-group">' +
+                '<div class="btn-group bg-secondary text-white">' +
                   '<a class="btn dropdown-toggle hide-arrow" data-toggle="dropdown">Aksi</a>' +
                   '<div class="dropdown-menu dropdown-menu-right">' +
-                  '<a href="javascript:;" class="dropdown-item" onclick="valid('+ id +')">Valid</a>' +
-                  '<a href="javascript:;" class="dropdown-item delete-record" onclick="tolak('+ id +')">Tolak</a>' +
+                  '<a href="javascript:;" class="dropdown-item bg-success text-white" onclick="valid('+ id +')">Valid</a>' +
+                  '<a href="javascript:;" class="dropdown-item bg-danger text-white" onclick="tolak('+ id +')">Tolak</a>' +
                   '</div>' +
                 '</div>'
               );
@@ -110,11 +133,59 @@ Pembayaran | Hippam Kaligondo
     });
 
     function valid(id) {
+      var url = 'pembayaran/valid/'+id;
 
+      swal({
+          title             : "Apakah Anda Yakin ?",
+          text              : "Validasi Pembayaran",
+          type              : "warning",
+          showCancelButton  : true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor : "#d33",
+          confirmButtonText : "Ya, validasi"
+      }).then((result) => {
+          $.ajax({
+              url    : url,
+              type   : "post",
+              success: function(data) {
+                  $('#table-1').DataTable().ajax.reload();
+                  swal({
+                      type: 'success',
+                      title: 'Data Pembayaran berhasil DIVALIDASI.',
+                      showConfirmButton: true,
+                      confirmButtonClass: 'btn btn-success',
+                  });
+              }
+          })
+      });
     }
 
     function tolak(id) {
+      var url = 'pembayaran/tolak/'+id;
 
+      swal({
+          title             : "Apakah Anda Yakin ?",
+          text              : "Tolak Pembayaran",
+          type              : "warning",
+          showCancelButton  : true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor : "#d33",
+          confirmButtonText : "Ya, Tolak"
+      }).then((result) => {
+          $.ajax({
+              url    : url,
+              type   : "post",
+              success: function(data) {
+                  $('#table-1').DataTable().ajax.reload();
+                  swal({
+                      type: 'success',
+                      title: 'Data Pembayaran berhasil DITOLAK.',
+                      showConfirmButton: true,
+                      confirmButtonClass: 'btn btn-success',
+                  });
+              }
+          })
+      });
     }
 
 </script>
