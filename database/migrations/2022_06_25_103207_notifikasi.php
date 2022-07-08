@@ -16,10 +16,13 @@ class Notifikasi extends Migration
         Schema::create('notifikasi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_pelanggan')->references('id')->on('user');
-            $table->foreignId('id_petugas')->references('id')->on('user')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('tlp')->nullable();
+            $table->string('alamat')->nullable();
             $table->text('pesan')->nullable();
             $table->enum('type', ['keluhan', 'pembayaran']);
-            $table->boolean('read_petugas')->default(false);
+            $table->boolean('petugas')->default(false);
+            $table->boolean('read')->default(false);
             $table->timestamps();
         });
     }

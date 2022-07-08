@@ -51,6 +51,7 @@ Route::middleware(['auth'])->group(function() {
 
     // notifikasi
     Route::get('/notifikasi', [NotifikasiController::class, 'index']);
+    Route::post('/notifikasi/list', [NotifikasiController::class, 'list']);
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

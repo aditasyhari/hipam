@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Keluhan;
+use App\Models\Notifikasi;
 use Exception;
 use DataTables;
 use Validator;
@@ -53,6 +54,15 @@ class KeluhanController extends Controller
                 'tlp' =>  Auth::user()->tlp,
                 'alamat' =>  Auth::user()->alamat,
                 'keluhan' => $request->keluhan,
+            ]);
+
+            Notifikasi::create([
+                'id_pelanggan' => Auth::user()->id,
+                'nama' => Auth::user()->nama,
+                'tlp' => Auth::user()->tlp,
+                'type' => 'keluhan',
+                'pesan' => 'Keluhan baru, cek pada menu keluhan',
+                'petugas' => 1
             ]);
 
             return back()->with('success', 'Berhasil menambahkan Keluhan');

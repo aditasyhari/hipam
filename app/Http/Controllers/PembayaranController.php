@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pembayaran;
+use App\Models\Notifikasi;
 use DataTables;
 use Exception;
 use Validator;
@@ -86,6 +87,15 @@ class PembayaranController extends Controller
                 'status' => 'waiting'
             ]);
 
+            Notifikasi::create([
+                'id_pelanggan' => $id_pelanggan,
+                'nama' => Auth::user()->nama,
+                'tlp' => Auth::user()->tlp,
+                'type' => 'pembayaran',
+                'pesan' => 'Pembayaran hippam bulan '.bulan_indo($request->bulan).' '.$tahun_sekarang,
+                'petugas' => 1
+            ]);
+
             return back()->with('success', 'Pembayaran berhasil, tunggu validasi admin.');
         } catch (Exception $e) {
             return view('error');
@@ -102,6 +112,15 @@ class PembayaranController extends Controller
                 'read' => true
             ]);
 
+            Notifikasi::create([
+                'id_pelanggan' => $pembayaran->id_pelanggan,
+                'nama' => $pembayaran->nama,
+                'tlp' => $pembayaran->tlp,
+                'type' => 'pembayaran',
+                'pesan' => 'Pembayaran hippam bulan '.bulan_indo($pembayaran->bulan).' '.$pembayaran->tahun.' telah divalidasi.',
+                'petugas' => 0
+            ]);
+
             return response()->json('success', 200);
         } catch (Exception $e) {
             return response()->json('error', 500);
@@ -116,6 +135,15 @@ class PembayaranController extends Controller
             $pembayaran->update([
                 'status' => 'reject',
                 'read' => true
+            ]);
+
+            Notifikasi::create([
+                'id_pelanggan' => $pembayaran->id_pelanggan,
+                'nama' => $pembayaran->nama,
+                'tlp' => $pembayaran->tlp,
+                'type' => 'pembayaran',
+                'pesan' => 'Pembayaran hippam bulan '.bulan_indo($pembayaran->bulan).' '.$pembayaran->tahun.' ditolak. Silahkan unggah ulang bukti yang benar.',
+                'petugas' => 0
             ]);
 
             return response()->json('success', 200);
@@ -162,6 +190,15 @@ class PembayaranController extends Controller
                 'status' => 'waiting',
                 'read' => false,
                 'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
+            Notifikasi::create([
+                'id_pelanggan' => $pembayaran->id_pelanggan,
+                'nama' => $pembayaran->nama,
+                'tlp' => $pembayaran->tlp,
+                'type' => 'pembayaran',
+                'pesan' => 'Pembayaran ulang hippam bulan '.bulan_indo($pembayaran->bulan).' '.$pembayaran->tahun,
+                'petugas' => 1
             ]);
 
             return back()->with('success', 'Pembayaran berhasil, tunggu validasi admin.');
