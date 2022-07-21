@@ -3626,6 +3626,10 @@ Invoice
   line-height: 70px;
 }
 
+.img-logo {
+  height: 100px;
+}
+
 .user-thumb {
   position: relative;
   z-index: 999;

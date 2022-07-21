@@ -41,8 +41,9 @@
                             <img src="assets/images/logo-sm-light.png" alt="" class="logo-small">
                             <img src="assets/images/logo-light.png" alt="" class="logo-large">
                         </a> -->
-                        <a href="{{ url('/home') }}">
-                            <h3 class="text-white">Hippam Kaligondo</h3>
+                        <a href="{{ url('/home') }}" class="d-flex flex-row align-items-center">
+                            <img src="assets/images/logo/2.jpg" alt="" class="img-logo">
+                            <h3 class="ml-3 text-white">Hippam Kaligondo</h3>
                         </a>
 
                     </div>
