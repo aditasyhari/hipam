@@ -73,6 +73,11 @@ Route::middleware(['auth'])->group(function() {
         // pembayaran
         Route::post('/pembayaran/list', [PembayaranController::class, 'list']);
 
+        // laporan
+        Route::post('/laporan/list', [PembayaranController::class, 'listLaporan']);
+        Route::get('/laporan', [PembayaranController::class, 'laporan']);
+        Route::post('/laporan', [PembayaranController::class, 'laporan']);
+
     });
 
 });

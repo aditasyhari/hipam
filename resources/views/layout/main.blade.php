@@ -94,6 +94,10 @@
                             <li class="has-submenu {{ (request()->is('pengumuman*')) ? 'active' : '' }}">
                                 <a href="{{ url('/pengumuman') }}"><i class="mdi mdi-bullhorn"></i>Pengumuman</a>
                             </li>
+
+                            <li class="has-submenu {{ (request()->is('laporan*')) ? 'active' : '' }}">
+                                <a href="{{ url('/laporan') }}"><i class="mdi mdi-file-chart"></i>Laporan</a>
+                            </li>
                             @endif
 
                             <li class="has-submenu">
@@ -110,6 +114,7 @@
             </div> 
         </header>
 
+        <div class="mt-4"></div>
         @yield('content')
 
         <!-- Footer -->
@@ -152,6 +157,10 @@
 
         <!-- Datatable init js -->
         <script src="{{ asset('assets/pages/datatables.init.js') }}"></script>
+
+        <!--DateRangePicker -->
+        <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
         <!-- Sweet-Alert  -->
         <script src="../plugins/sweet-alert2/sweetalert2.min.js"></script>

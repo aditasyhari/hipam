@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pembayaran;
 use App\Models\Notifikasi;
+use Carbon\Carbon;
 use DataTables;
 use Exception;
 use Validator;
@@ -207,4 +208,58 @@ class PembayaranController extends Controller
             dd($e->getMessage());
         }
     }
+
+    public function laporan(Request $request)
+    {
+        try {
+            if($request->isMethod('get')) {
+                $dari = null;
+                $sampai = null;
+
+                return view('pembayaran.laporan', compact(['dari', 'sampai']));
+            } else {
+                $validator = Validator::make($request->all(), [
+                    'dari' => 'required',
+                    'sampai' => 'required',
+                ]);
+                    
+                if ($validator->fails()) {
+                    return back()->with('error', 'Pastikan tanggal dipilih dengan benar!');
+                }
+
+                // $dari = Carbon::parse($request->dari)->translatedFormat('d F Y');
+                // $sampai = Carbon::parse($request->sampai)->translatedFormat('d F Y');
+
+                $dari = $request->dari;
+                $sampai = $request->sampai;
+
+                return view('pembayaran.laporan', compact(['dari', 'sampai']));
+            }
+        } catch (Exception $e) {
+            return view('error');
+            dd($e->getMessage());
+        }
+    }
+
+    public function listLaporan(Request $request)
+    {
+        if($request->ajax()) {
+            if($request->dari && $request->sampai) {
+                $data = Pembayaran::orderBy('id', 'desc')
+                        ->where('status', 'success')
+                        ->whereDate('updated_at', '>=', $request->dari)
+                        ->whereDate('updated_at', '<=', $request->sampai)
+                        ->get();
+            } else {
+                $data = Pembayaran::orderBy('id', 'desc')
+                        ->where('status', 'success')
+                        ->get();
+            }
+
+            return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->make(true);
+        }
+    }
+
 }
